@@ -2,7 +2,7 @@
 
 Define a function with type:
 ```ocaml
-consensus3 : ('a -> 'b) * ('a -> 'b) * ('a -> 'b) -> 'a -> 'b option
+consensus3 : ('a -> 'b) * ('a -> 'b) * ('a   -> 'b) -> 'a -> 'b option
 ```
 The function takes as input 3 functions with the same type,
 and it outputs a function with type:

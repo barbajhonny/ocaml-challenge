@@ -1,6 +1,6 @@
 # Count zeros of a function
 
-Define a function with type:
+Define   a function with type:
 ```ocaml
 countzero : (int -> int) -> int -> int -> int
 ```

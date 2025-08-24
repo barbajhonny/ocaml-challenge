@@ -31,5 +31,5 @@ win(2,5);;
 - : (int * int) * winner = ((4, 6), Computer)
 
 win(2,5);;
-- : (int * int) * winner = ((3, 4), Player)
+- : (int * int) * winner = ((3, 4), Player) 
 ```

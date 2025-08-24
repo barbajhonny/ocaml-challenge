@@ -2,7 +2,7 @@
 let nand a b = not (a && b);;
 
 (*logic port with conditional expression*)
-let nand1 c d = if (c = true && d ==true) then false else true;;
+let nand1 c d = if (c = true && d =true) then false else true;;
 
 (*Logic port with pattern matching*)
 let nand2 e f =
@@ -10,4 +10,4 @@ let nand2 e f =
   | false, false -> true
   | false, true -> true
   | true, false -> true
-  |true, true -> false
+  |true, true -> false;;
