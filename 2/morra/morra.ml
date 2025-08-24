@@ -1,4 +1,5 @@
 type winner = Player | Computer | Tie;;
+
 let win (p_n,p_guess) =
   if p_n>= 0 && p_n<=5 && p_guess>=0 && p_guess<=10 then
     let c_random_number = Random.int 6 in
