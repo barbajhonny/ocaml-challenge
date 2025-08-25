@@ -3,5 +3,3 @@ let (<*>) x y = match x with
 |Some f-> match y with
   |None -> None
   |Some k -> Some (f k);;
-  
-  
