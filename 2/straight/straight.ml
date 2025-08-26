@@ -18,7 +18,7 @@ let mano () = [carta();carta();carta();carta();carta()];;
 
 let carte1 = mano () 
 
-
+(*FUNZIONE FINALE*)
 let straight (c1,c2,c3,c4,c5) = 
   let carte = [c1;c2;c3;c4;c5] in 
 
