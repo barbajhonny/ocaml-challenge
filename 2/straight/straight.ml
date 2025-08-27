@@ -14,7 +14,7 @@ let randomNumber () = 1 + Random.int 13;;
 
 let carta () = Card(randomNumber(),randomSuit());;
 
-let mano () = [carta();carta();carta();carta();carta()];;
+let mano () = (carta(),carta(),carta(),carta(),carta());;
 
 let carte1 = mano () 
 
