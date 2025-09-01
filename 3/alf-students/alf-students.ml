@@ -39,55 +39,80 @@ let id_of_noshow lista_studenti =
   |> List.map (fun student -> student.id)
 ;;
 
-
+(*FILTRA LA LISTA E RENDE IL NOME E IL COGNOME DEGLI STUDENTI CHE HANNO PRESO UN VOTO COMPRESO TRA 15 E 17*)
 let upgradeable lista_studenti = 
   lista_studenti
   |> List.filter (fun student -> 
       match student.vote with
       | Some v -> v >= 15 && v <= 17
       | _ -> false)
-  |> List.map (fun student -> student.name ^" " ^ student.surname);;
+  |> List.map (fun student -> student.name ^" " ^ student.surname)
+;;
 
 
+(*FILTRA LA LISTA E CAMBIA IL VOTO IN 18 A CHI HA PRESO UN VOTO COMPRESO TRA 15 E 17*)
+let upgrade lista_studenti=
+  lista_studenti
+  |> List.filter (fun student -> 
+      match student.vote with
+      | Some v -> v >= 15 && v <= 17
+      | _ -> false)
+  |> List.map (fun student -> {student with vote = Some 18})
+
+;;
 
 
+(*FILTRA LA LISTA E RENDE IL NOME E IL COGNOME DEGLI STUDENTI CHE HANNO UAN LODE MA, UN VOTO MINORE DI 30 O NON HANNO PROPRIO VOTO*)
+let wrong_laude lista_studenti =
+  lista_studenti
+  |> List.filter (fun student -> match  (student.vote , student.laude) with
+    | (Some x, y) when x < 30  && y -> true 
+    | (x, y) when  x =None  && y -> true 
+    | (_,_) -> false) 
+  |> List.map (fun student -> student.name ^ " " ^student.surname)
+;;
 
 
+(*FILTRA LA LISTA E TOGLIE LA LODE A CHI NON HAPRESO ALMENO 30 O NON HA FATTO L'ESAME*)
+let fix_laude lista_studenti = 
+  lista_studenti 
+    |> List.filter (fun student-> match (student.vote,student.laude) with
+      |(Some x,true) when x<30 -> true
+      |(None,true) -> true
+      |(_,_) -> false )
+    |>List.map (fun student -> {student with laude = false} )
+;;
+   
+
+(*FILTRA LA LISTA E RENDE LA PERCENTUIALE DI STUDENTI CHE HANNO PASSATO L'ESAME*)
+let percent_passed lista_studenti =
+  let total = List.length lista_studenti in
+  let passed =
+    lista_studenti
+      |> List.filter (fun student -> match student.vote with
+        | Some x when x>= 18 -> true
+        | _ -> false )
+      |> List.length in
+    if total > 0 then ((float_of_int passed /. float_of_int total) *. 100.0)
+      else 
+      0.0
+;;
 
 
-  let f l = if l = [] then false else 
-    let len = List.length l in
-      let hd = List.hd l in
-      if len >0 && hd = 0 || hd = 1 then 
-        let rec check l=
-      match l with 
-      | []-> true
-      | [x] -> x=2 || x=0 || x=1
-      | h::t -> if h=0 || h=1 then check t else failwith "ciao" 
-in check l
-else false;;
+(*FILTRA LA LISTA E RENDE LA MEDIA DEI VOTI DEGLI STUDENTI CHE HANNO PASSATO L'ESAME*)
+let avg_vote lista_studenti =
+  let votes_with_bonus =
+    lista_studenti
+    |> List.filter_map (fun student -> 
+        match student.vote, student.laude with
+        | (Some v, _) when v >= 18 -> 
+            let bonus = if student.laude then 2.0 else 0.0 in
+            Some (float_of_int v +. bonus)
+        | _ -> None)
+  in
+  if votes_with_bonus = [] then 0.0
+  else 
+    let total = List.fold_left (+.) 0.0 votes_with_bonus in
+    total /. float_of_int (List.length votes_with_bonus)
+    
 
-
-
-let f x l = 
-
-  let getValue = function
-  | (v,c)  when x < v && v > c  -> v 
-  | (v,c)  when x < c && v < c  -> c  
-  | _ -> 0 in
-  
-  let lista_valori = List.map getValue l in
-
-  let rec totale = function
-    |[] -> 0
-    |[x] -> x 
-    |h::t -> h + (totale t)
-
-  in totale lista_valori 
-;; 
-
-
-let rec sum x lst =
-  match lst with
-  | [] -> 0 
-  | (a, b) :: resto-> if (a>x && a>b) then a + (sum x lst) else if (b>a && b>x) then b + (sum x lst) else 0;;

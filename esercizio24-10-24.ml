@@ -1,5 +1,5 @@
 (*funzione richieste nella prima parte d'esame*)
-let ft= function
+(*let ft= function
 []-> failwith "lista vuota"
 | h::t -> h;;
 
@@ -25,6 +25,30 @@ let rec check x l =
   |(h::t,x) when x>0 -> if save_x = h then check (x-1) t else check x t
   |_,_ -> false
 
-  in check x l ;;
+  in check x l ;;*)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
