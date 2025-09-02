@@ -63,4 +63,9 @@ else failwith "non ci sono abbastanza zeppole"
 
 type label = Buy of tingr * int | Cook | Sell of int;;
 
-let step (l:label) (s:tstate) =  
+let step l s =
+  match l with
+  | Buy (ingr, n) -> buy (ingr, n) s  (* buy già fa il controllo del balance *)
+  | Cook -> cook s                    (* cook già fa il controllo ingredienti *)
+  | Sell n -> sell n s                (* sell già fa il controllo zeppole *)
+;;
