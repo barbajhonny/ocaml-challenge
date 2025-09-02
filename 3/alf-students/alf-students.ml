@@ -114,11 +114,4 @@ let avg_vote lista_studenti =
   else 
     let total = List.fold_left (+.) 0.0 votes_with_bonus in
     total /. float_of_int (List.length votes_with_bonus)
-    
-
-
-
-
-
-
-    
+;;
