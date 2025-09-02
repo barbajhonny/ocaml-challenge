@@ -116,3 +116,9 @@ let avg_vote lista_studenti =
     total /. float_of_int (List.length votes_with_bonus)
     
 
+
+
+
+
+
+    
