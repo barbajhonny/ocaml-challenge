@@ -1,39 +1,57 @@
 (*Knife*)
+
+(* Rende un booleano e controlla se in una lista la testa, coincide con l'ultimo elemento *)
 let f l = if List.length l > 1 then
   let testa = List.hd l in 
   let coda = List.rev l in
   if testa = List.hd coda then true else false
-else false;;
+else false
+;;
+(* Rende un booleano e controlla se in una lista la testa, coincide con l'ultimo elemento *)
+let f l = 
+  l
+    |> fun x-> if List.hd x = List.hd (List.rev x) then true else false 
+;; 
 
+
+(* Verifica se all'interno di una lista tutti gli elementi della lista siano piu grandi di x *)
 let f (x:int) l = 
   l 
-  |> List.for_all (fun n-> x < n )   
+    |> List.for_all (fun n-> x < n )   
 ;;
 
 
+(* Questo è un riconoscitore di linguaggio, la parola accettata da true se e solo se inizia con 1, 
+  al suo interno ci son solo 0 e termina con 1, oppure inizia e termina con 1 *)
 let f l =
   match l with
   | 1 :: xs ->
       (match List.rev xs with
        | 1 :: rev_mid ->
-           (* rev_mid è la parte centrale (in ordine invertito); la rimettiamo nell'ordine
-              originale con List.rev e controlliamo che tutti gli elementi siano 0 *)
-           List.for_all (fun z -> z = 0) (List.rev rev_mid)
+           (* rev_mid è la parte centrale (in ordine invertito);
+              controlliamo che tutti gli elementi siano 0 *)
+           List.for_all (fun z -> z = 0) (rev_mid)
        | _ -> false)
   | _ -> false
-       ;;
+;;
 
 
-
+(* Questa funzione prende un intero e una lista, mette a destra di una tupla i numeri della lista minori o uguali all'intero passato, 
+  mentre a sinistra mette i valori della lista più grandi di n *)
 let foo (n:int) l = 
-  ((List.filter (fun x ->  x<= n ) l ), (List.filter(fun x ->  x>n ) l))
-
+  l |>
+  fun z->((List.filter (fun x ->  x<= n ) z ), (List.filter(fun x ->  x>n ) z))
+;;
+(* Questa funzione prende un intero e una lista, mette a destra di una tupla i numeri della lista minori o uguali all'intero passato, 
+  mentre a sinistra mette i valori della lista più grandi di n *)
 let f n l = l
     |> List.rev   
     |>List.fold_left (fun (minori,maggiori) x -> if x <= n then (x::minori,maggiori) else (minori, x::maggiori) ) ([],[])
 ;;
 
 
+(* Questa funzine prende una lista qualsiasi e la confronta con la seconda lista di booleani,
+  se nella lista l2 compare un true allora rende il valore della lista l1 *)
 let rec f l1 l2 =
   match (l1,l2) with 
   | ([], []) -> []
@@ -41,33 +59,40 @@ let rec f l1 l2 =
   | _ -> failwith "ciao"
 ;;  
 
-  
-  let select (l1:int list) l2 =
-  List.combine l1 l2
-  |> List.filter_map (fun (x, b) -> if b then Some x else None);;
+(* Questa funzine prende una lista qualsiasi e la confronta con la seconda lista di booleani,
+  se nella lista l2 compare un true allora rende il valore della lista l1 *)
+let select (l1:int list) l2 =
+  (*combina due liste e le trasforma in una lista di tuple assocciando il  primo valore della prima lista con il primo valore della seconda lista*)
+  List.combine l1 l2 
 
-
-   let select (l1:int list) l2 =
-  List.combine l1 l2
-    |> List.filter (fun (_,x) -> x)
-    |> List.map (fun (y,_)-> y)
-  ;;
-
-
-
-let f x l = 
-  let occ = List.filter_map(fun y -> if y = x then Some y else None) l in
-  if (List.length occ <= x) then true else false
+  (*questa funzione serve per filtrare e rendere direttamente un valore
+  NOTA : NON rende un 'a option ma un int (anche se c'è scritto Some) in caso di None, rende*)
+  |> List.filter_map (fun (x, b) -> if b then Some x else None) 
 ;;
 
 
+(* Questa funzine prende una lista qualsiasi e la confronta con la seconda lista di booleani,
+  se nella lista l2 compare un true allora rende il valore della lista l1 *)
+let select (l1:int list) l2 =
+  List.combine l1 l2
+    |> List.filter (fun (_,x) -> x) (* Qui filtra solo i valori che contengono TRUE*)  
+    |> List.map (fun (y,_)-> y) (* Qui rende solo i valori interi che prima son stati filtrati con TRUE , risultato? = solo i numeri con true*)
+;;
+
+
+(* Questa funzione rende true se ci sono al più x occorrenze di x all'interno di una lista *)
+let f x l = 
+  let occ = List.filter_map(fun y -> if y = x then Some y else None) l in   (*Filtra e rende un intero*)
+  if (List.length occ <= x) then true else false 
+;;
+(* Uguale *)
 let foo n l = 
   let check = List.fold_left (fun acc x -> if x = n && acc<=n then acc+1 else acc ) 0 l in 
   if check <= n then true else false 
 ;;
 
 
-
+(* Matcha il linguaggio { 1 0^n 1 -> n>=0} *)
 let fuu l = 
   match  l with 
   |1::rest -> (match List.rev rest with
@@ -75,8 +100,7 @@ let fuu l =
                   |_ -> false )
   |_-> false  
 ;;
-
-
+(* Uguale *)
 let g l = 
   let head = List.hd l in
   let tail = List.hd (List.rev l) in
