@@ -146,22 +146,13 @@ let  win l =
 let f n l= 
  List.filter_map (fun (x,y)-> if y>n then Some x else None) l 
 |> function
-|[]-> None
-|h::t -> Some(List.fold_left (fun acc x-> if x<acc then x else acc) h t)
+  |[]-> None
+  |h::t -> Some(List.fold_left (fun acc x-> if x<acc then x else acc) h t)
 ;;
 
 
 
-
-
-
-
-
-
-
-
-
-let rec f n l= 
+(*let rec f n l= 
 
 let rec minlst l = match l with 
 |[]->failwith "impossibile"
@@ -178,7 +169,7 @@ let rec minimo minlst =
 match minlst l with 
 |[]->None
 |x -> Some(x)
-;;
+;;*)
 
 
 (*************************************************)
@@ -194,10 +185,11 @@ let rec f n l =
         | Some m -> if x < m then Some x else Some m
       else
         rest_result
+;;
 
 (********************************************************)
 
-        let rec f n l =
+let rec f n l =
   match l with
   | [] -> None  (* Caso base: lista vuota *)
   | (x, y) :: rest ->
@@ -209,24 +201,24 @@ let rec f n l =
             if x < min_rest then Some x else Some min_rest
           else
             Some min_rest
-          ;;
+;;
 
 
 
 
-let f (a,b) (c,d) = 
-  if a<b && b<c && c<d then true else false;;
+let disj (a,b) (c,d) = 
+  if a<b && b<c && c<d then true else false
+;;
 
 
-  let disj (a,b) (c,d) =
-    match (a,b) , (c,d) with 
-    |(a,b) , (c,d) -> if b>=c || (d>=a && d<=b) then false else true
-    |_-> failwith "ciao"
-  ;; 
+let disj (a,b) (c,d) =
+  match (a,b) , (c,d) with 
+  |(a,b) , (c,d) -> if b>=c || (d>=a && d<=b) then false else true
+;; 
 
-
-
-
+let incl (a,b) (c,d)= 
+  if a>=c && b<d then true else false
+;;
 
 let rec find (a,b) l =
   match (a,b),l with  
@@ -235,23 +227,14 @@ let rec find (a,b) l =
 ;;
 
 
-let incl (a,b) (c,d)= if a>=c && b<d || a>c && b<=d then true else false
-let rmdup l =
-let l_copy= l in
-
-let rec check l =
-match l with
-|[]->[]
-|(a,b)::z -> if ( List.for_all(fun (x,y)-> not(incl (a,b) (x,y)) ) l_copy ) then (a,b)::check z else check z
-
-in check l 
+[(2,3) ; (3,7) ; (33,73)]
+let rec rmdup l = 
+  match l with 
+  |h :: x :: t -> if incl h x then x::t 
+                  else if incl x h then h::t 
+                    else rmdup (h::t)
+  |_ -> l
 ;;
 
 
-
-
-
-let rec rmpup l = 
-  match l with 
-  |h :: x :: t -> if incl h x then x::t else rmpup (h::t)
-  |_ -> l
+(*cat | grep -E '^([0-1]{1,2})[01]{,1}\1$'*)
