@@ -112,3 +112,146 @@ let g l =
       if (f2 f1) then true else false 
 else false 
 ;;
+
+
+
+
+
+
+
+
+
+
+
+
+type t = X | O | P ;;
+let  win l =
+  if List.length l > 3 then
+    let rec check l=
+  match l with 
+  |X::x::t when x=X-> if List.hd (x::t) = List.hd t then Some X else check (x::t) 
+  |O::x::t when x=O-> if List.hd (x::t) = List.hd t then Some O else check (x::t)
+  |_ -> None
+  in check l 
+  else None;;
+;;
+
+
+
+
+
+
+
+
+let f n l= 
+ List.filter_map (fun (x,y)-> if y>n then Some x else None) l 
+|> function
+|[]-> None
+|h::t -> Some(List.fold_left (fun acc x-> if x<acc then x else acc) h t)
+;;
+
+
+
+
+
+
+
+
+
+
+
+
+let rec f n l= 
+
+let rec minlst l = match l with 
+|[]->failwith "impossibile"
+|(x,y)::rest-> if y>n then x::minlst rest else minlst rest 
+in
+
+let rec minimo minlst = 
+  match minlst with
+  |[]-> None
+  |[x]-> (Some x)
+  |h::t-> let tail = minimo t in 
+      if h<tail then h else tail in
+
+match minlst l with 
+|[]->None
+|x -> Some(x)
+;;
+
+
+(*************************************************)
+
+let rec f n l =
+  match l with
+  | [] -> None
+  | (x, y) :: rest ->
+      let rest_result = f n rest in
+      if y > n then
+        match rest_result with
+        | None -> Some x
+        | Some m -> if x < m then Some x else Some m
+      else
+        rest_result
+
+(********************************************************)
+
+        let rec f n l =
+  match l with
+  | [] -> None  (* Caso base: lista vuota *)
+  | (x, y) :: rest ->
+      match f n rest with  (* Chiamata ricorsiva *)
+      | None -> 
+          if y > n then Some x else None
+      | Some min_rest ->
+          if y > n then
+            if x < min_rest then Some x else Some min_rest
+          else
+            Some min_rest
+          ;;
+
+
+
+
+let f (a,b) (c,d) = 
+  if a<b && b<c && c<d then true else false;;
+
+
+  let disj (a,b) (c,d) =
+    match (a,b) , (c,d) with 
+    |(a,b) , (c,d) -> if b>=c || (d>=a && d<=b) then false else true
+    |_-> failwith "ciao"
+  ;; 
+
+
+
+
+
+let rec find (a,b) l =
+  match (a,b),l with  
+  |(a,b) , h::t -> if disj (a,b) h then find (a,b) t else Some(h)
+  |_ -> None
+;;
+
+
+let incl (a,b) (c,d)= if a>=c && b<d || a>c && b<=d then true else false
+let rmdup l =
+let l_copy= l in
+
+let rec check l =
+match l with
+|[]->[]
+|(a,b)::z -> if ( List.for_all(fun (x,y)-> not(incl (a,b) (x,y)) ) l_copy ) then (a,b)::check z else check z
+
+in check l 
+;;
+
+
+
+
+
+let rec rmpup l = 
+  match l with 
+  |h :: x :: t -> if incl h x then x::t else rmpup (h::t)
+  |_ -> l
