@@ -227,7 +227,6 @@ let rec find (a,b) l =
 ;;
 
 
-[(2,3) ; (3,7) ; (33,73)]
 let rec rmdup l = 
   match l with 
   |h :: x :: t -> if incl h x then x::t 
@@ -238,3 +237,27 @@ let rec rmdup l =
 
 
 (*cat | grep -E '^([0-1]{1,2})[01]{,1}\1$'*)
+
+
+ let pi ingr prezzi = 
+  prezzi 
+|> List.fold_left(fun acc (x,y)-> if x=ingr then acc+y else acc) 0
+|>function
+|x when x>0 -> x
+|_ ->failwith"ciao"
+;;
+
+
+let rec pil ingrl prezzi=
+match ingrl with
+| x::z ->  ((pi x prezzi) + pil z prezzi)
+|[] -> 0
+;;
+
+
+
+let rec costo p menu prezzi = 
+  match menu with
+  |(x,y)::t-> if p=x then 300+(pil y prezzi) else (costo p t prezzi)
+  |[]->0
+;;
